@@ -4,6 +4,7 @@ import { createClient } from "../../../utils/supabase/client";
 import { type User } from "@supabase/supabase-js";
 import Avatar from "./avatar";
 import { url } from "inspector";
+import { useRouter } from "next/navigation";
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient();
@@ -12,6 +13,8 @@ export default function AccountForm({ user }: { user: User | null }) {
   const [username, setUsername] = useState<string | null>(null);
   const [website, setWebsite] = useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const getProfile = useCallback(async () => {
     try {
@@ -129,7 +132,14 @@ export default function AccountForm({ user }: { user: User | null }) {
           {loading ? "Loading ..." : "Update"}
         </button>
       </div>
-
+      <button
+        className="button block"
+        onClick={() => {
+          router.push("/user");
+        }}
+      >
+        View User Page
+      </button>
       <div>
         <form action="/auth/signout" method="post">
           <button className="button block" type="submit">
